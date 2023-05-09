@@ -13,10 +13,10 @@
       msg: You must be running Fedora 34 or greater
     when: ansible_distribution_version|int < 34
 
-  - name: Check hardware is an EVE Pixelbook
+  - name: Check hardware is an Atlas Pixelbook
     fail:
-      msg: This playbook is only intended to be run on an EVE Pixelbook
-    when: ansible_board_vendor != 'Google' or ansible_board_name != 'Eve'
+      msg: This playbook is only intended to be run on an Atlas Pixelbook
+    when: ansible_board_vendor != 'Google' or ansible_board_name != 'Atlas'
 
   - name: Check user
     fail:
@@ -63,7 +63,7 @@
 
     - name: Parse recovery image information
       set_fact:
-        recovery_image_url: "{{ (recovery_info.content | regex_search('https.*eve_recovery_stable.*zip')).split('\"') | last }}"
+        recovery_image_url: "{{ (recovery_info.content | regex_search('https.*atlas_recovery_stable.*zip')).split('\"') | last }}"
 
     - name: Create a temporary working directory
       tempfile:
@@ -142,7 +142,10 @@
         remote_src: true
       become: true
       with_items:
-      - 9d71-GOOGLE-EVEMAX-0-tplg.bin
+      - intel/avs/da7219-tplg.bin
+      - intel/avs/dmic-tplg.bin
+      - intel/avs/hda-8086280b-tplg.bin
+      - intel/avs/max98373-tplg.bin
       - dsp_lib_dsm_core_spt_release.bin
       - intel/dsp_fw_C75061F3-F2B2-4DCC-8F9F-82ABB4131E66.bin
 
